@@ -1,0 +1,21 @@
+- Se crea las filas y columnas
+val table = List ((72,115),(76, 121),(78, 125),(81, 130),(89, 141), (95, 150),(108,165),(115,170),(120,177),(130,178)) 
+- Se suman todos los elementos de las columnas, para luego ser utilizadas en la desviacion tipica                                                                                
+val mX = (table: List[(Int, Int)]) => table.map(x => x._1).length
+val mY = (table: List[(Int, Int)]) => table.map(x => x._2).length
+- Gracias a el valor anterior para sacar Media marginal tanto como x como en y
+val mediaX = (table: List[(Int, Int)]) => table.map(x => x._1).sum / mX(table).toDouble
+
+val mediaY = (table: List[(Int, Int)]) => table.map(x => x._1).sum / mY(table).toDouble
+
+- En esta funcion se saca la Desviacion tipica marginal tanto en x como en y
+val tipicaX = (table: List[(Int, Int)]) => math.sqrt((table.map(x => math.pow(x._1, 2)).sum / mX(table))-math.pow(mediaX(table), 2))
+
+val tipicaY = (table: List[(Int, Int)]) => math.sqrt((table.map(x => math.pow(x._1, 2)).sum / mY(table))-math.pow(mediaY(table), 2))
+
+- La sumatoria total de las columnas
+val mXY = (table: List[(Int, Int)]) => table.map(x => x._1 * x._2).sum
+- Se consigue la covarianza
+var cov = mXY(table)/ mX(table) - (mediaX(table) * mediaY(table))
+- Se obtiene el coeficiente de person
+var covfinal = cov(table) / (tipicaX(table) * tipicaY(table))
